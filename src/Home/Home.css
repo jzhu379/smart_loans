@@ -1,0 +1,17 @@
+.intro
+{
+    background-color: rgba(224, 224, 224, 0.85);
+    border-radius: 3rem;
+    width: 70%;
+    padding: 0.25rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title
+{
+    text-decoration: underline;
+    font-size: 3rem;
+}

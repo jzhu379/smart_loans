@@ -29,7 +29,8 @@ class Login extends Component
     showPassLogin: false,
     loading: false,
     done: false,
-    error: false
+    error1: null,
+    error2: null
   };
 
   newUser = () =>
@@ -41,7 +42,7 @@ class Login extends Component
       this.setState({loading: false, done: true});
     }).catch((e) =>
     {
-      this.setState({loading: false, error: true});
+      this.setState({loading: false, error1: e.response.data.error.message});
     });
   }
 
@@ -55,7 +56,7 @@ class Login extends Component
       this.props.history.replace('/');
     }).catch((e) =>
     {
-      this.setState({loading: false, error: true});
+      this.setState({loading: false, error2: e.response.data.error.message});
     });
   }
 
@@ -206,12 +207,92 @@ class Login extends Component
       );
     }
 
-    if (this.state.error)
+    if (this.state.error1 !== null)
     {
-      console.log(this.state.error);
+      let msg = 'Something went wrong';
+
+      if (this.state.error1 === 'INVALID_EMAIL')
+      {
+        msg = 'Invalid email.'
+      }
+
+      if (this.state.error1 === 'WEAK_PASSWORD : Password should be at least 6 characters')
+      {
+        msg = 'Password should be at least 6 characters.';
+      }
+
+      if (this.state.error1 === 'EMAIL_EXISTS')
+      {
+        msg = 'Email already has account.'
+      }
+
       form = (
-        <div className = 'div'>
-          <h1>An error has occured.</h1>
+        <div className = 'div2'>
+          <h1>{msg}</h1>
+          <Button
+            variant = 'contained'
+            classes = {{label: classes.label, root: classes.btn2}}
+            onClick = {() =>
+            {
+              this.setState({
+                name: '',
+                email: '',
+                pass1: '',
+                pass2: '',
+                showPass1: false,
+                showPass2: false,
+                emailLogin: '',
+                passLogin: '',
+                showPassLogin: false,
+                loading: false,
+                done: false,
+                error1: null,
+                error2: null
+              });
+            }}
+          >
+            TRY AGAIN?
+          </Button>
+        </div>
+      );
+    }
+
+    if (this.state.error2 !== null)
+    {
+      let msg = 'Something went wrong';
+
+      if (this.state.error2 === 'INVALID_EMAIL' || this.state.error2 === 'INVALID_PASSWORD')
+      {
+        msg = 'Invalid email/password.'
+      }
+
+      form = (
+        <div className = 'div2'>
+          <h1>{msg}</h1>
+          <Button
+            variant = 'contained'
+            classes = {{label: classes.label, root: classes.btn2}}
+            onClick = {() =>
+            {
+              this.setState({
+                name: '',
+                email: '',
+                pass1: '',
+                pass2: '',
+                showPass1: false,
+                showPass2: false,
+                emailLogin: '',
+                passLogin: '',
+                showPassLogin: false,
+                loading: false,
+                done: false,
+                error1: null,
+                error2: null
+              });
+            }}
+          >
+            TRY AGAIN?
+          </Button>
         </div>
       );
     }

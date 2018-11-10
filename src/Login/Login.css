@@ -9,6 +9,17 @@
     display: inline-block;
 }
 
+.div2
+{
+    background-color: rgba(224, 224, 224, 0.85);
+    border-radius: 3rem;
+    width: 50%;
+    position: relative;
+    top: 15vh;
+    padding-bottom: 1rem;
+    display: inline-block;
+}
+
 #middle
 {
     display: inline-block;

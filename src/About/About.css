@@ -1,20 +1,21 @@
-.intro
+#intro
 {
     background-color: rgba(224, 224, 224, 0.85);
     border-radius: 3rem;
     width: 70%;
     padding: 0.25rem;
     top: 57%;
+    margin: auto;
 }
 
-.about
+#about
 {
     text-decoration: underline;
     padding: none;
     margin-top: none;
 }
 
-.img
+#img
 {
     width: 62%;
     padding-bottom: 1rem;

@@ -4,10 +4,11 @@ import './Home.css'
 const home = () => 
 {
   return (
-      <div className = 'intro'>
-        <h1 className = 'title'> Welcome to our website! </h1>
-        <h2> We really don't know what the actual fuck we are doing lmao. </h2>
-      </div>
+    <div id = 'intro'>
+      <h1 id = 'title'> Welcome to our website! </h1>
+      <h2> Need to split the fare? Or just need a travel companion? </h2>
+      <h2>Well look no further! Our app will help you get into touch with other travelers around you! </h2>
+    </div>
   );
 };
 

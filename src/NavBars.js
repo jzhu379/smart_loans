@@ -57,7 +57,7 @@ class NavBars extends Component
             </div>
           </SwipeableDrawer>
   
-          <AppBar classes = {{root: classes.rootBar}} position = "static">
+          <AppBar className = {classes.root} classes = {{root: classes.rootBar}} position = "static">
             <Toolbar classes = {{root: classes.bar}}>
               <IconButton
                 className = {classes.menuButton}
@@ -134,8 +134,8 @@ class NavBars extends Component
             </div>
           </SwipeableDrawer>
   
-          <AppBar classes = {{root: classes.rootBar}} position = "static">
-            <Toolbar classes = {{root: classes.bar}}>
+          <AppBar className = {classes.root} classes = {{root: classes.rootBar}} position = "static">
+            <Toolbar classes = {{root: classes.bar}} className = {classes.root} position="static">
               <IconButton
                 className = {classes.menuButton}
                 color = "inherit"
@@ -182,8 +182,8 @@ const styles =
   btn: {backgroundColor: 'rgba(61, 133, 209, 1)', padding: '1rem'},
   container: {height: '7rem'},
   text: {fontSize: '1.4rem'},
-  title: {fontSize: '2.2rem'},
-  bar: {height: '15vh'},
+  title: {fontSize: '2.2rem', margin: 'auto', paddingLeft: '1.2rem'},
+  bar: {height: '15vh', textAlign: 'left'},
   rootBar: {backgroundColor: 'rgba(61, 81, 181, 0.8)'},
   label: {fontSize: '1.2rem'},
 };

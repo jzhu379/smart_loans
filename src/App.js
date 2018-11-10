@@ -6,13 +6,30 @@ import Login from './Login/Login';
 
 class App extends Component
 {
+  state = {email: null};
+
   render()
   {
     return (
       <div className="App">
         <Switch>
-          <Route exact path = "/login" component = {Login}/>
-          <Route path = "*" component = {NavBars} />
+          <Route
+            exact
+            path = "/login"
+            component = {(props) =>
+            {
+              return (
+                <Login auth = {(email) => {this.setState({email: email});}} />
+              );
+            }}
+          />
+          <Route
+            path = "*"
+            component = {(props) =>
+            {
+              return (<NavBars email = {this.state.email} logout = {() => {this.setState({email: null});}}/>);
+            }}
+          />
         </Switch>
       </div>
     );

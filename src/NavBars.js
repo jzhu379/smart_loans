@@ -23,82 +23,153 @@ class NavBars extends Component
   {
     const {classes} = this.props;
 
-    return (
-      <div className = {classes.root} id = "background">
-        <SwipeableDrawer
-          classes = {{paper: classes.drawer}}
-          open = {this.state.showing}
-          onClose = {() => {
-            this.setState({showing: false});
-          }}
-          onOpen = {() => {
-            this.setState({showing: true});
-          }}
-        >
-          <div
-            tabIndex = {0}
-            role = "button"
-            className = {classes.list}
-            onClick = {() => {
+    if (this.props.email === null)
+    {
+      return (
+        <div className = {classes.root} id = "background">
+          <SwipeableDrawer
+            classes = {{paper: classes.drawer}}
+            open = {this.state.showing}
+            onClose = {() => {
               this.setState({showing: false});
             }}
-            onKeyDown = {() => {
+            onOpen = {() => {
               this.setState({showing: true});
             }}
           >
-            <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/">
-              <ListItemText classes = {{primary: classes.text}} primary = "Home" />
-            </ListItem >
-            <ListItem classes = {{root: classes.container}} button component = {Link} to = "/submit">
-              <ListItemText classes = {{primary: classes.text}} primary = "Submit Request" />
-            </ListItem>
-            <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/search">
-              <ListItemText classes = {{primary: classes.text}} primary = "Search Requests" />
-            </ListItem>
-            <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/about">
-              <ListItemText classes = {{primary: classes.text}} primary = "About Me" />
-            </ListItem>
-          </div>
-        </SwipeableDrawer>
-
-        <AppBar classes = {{root: classes.rootBar}} position = "static">
-          <Toolbar classes = {{root: classes.bar}}>
-            <IconButton
-              className = {classes.menuButton}
-              color = "inherit"
-              aria-label = "Menu"
-              onClick = {() =>
-              {
+            <div
+              tabIndex = {0}
+              role = "button"
+              className = {classes.list}
+              onClick = {() => {
+                this.setState({showing: false});
+              }}
+              onKeyDown = {() => {
                 this.setState({showing: true});
               }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
-              TRAVEL TOGETHER
-            </Typography>
-            <Button
-              variant = 'contained'
-              classes = {{label: classes.label, root: classes.btn}}
-              onClick = {() =>
-              {
-                this.props.history.push('./login');
+              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/">
+                <ListItemText classes = {{primary: classes.text}} primary = "Home" />
+              </ListItem >
+              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/about">
+                <ListItemText classes = {{primary: classes.text}} primary = "About Me" />
+              </ListItem>
+            </div>
+          </SwipeableDrawer>
+  
+          <AppBar classes = {{root: classes.rootBar}} position = "static">
+            <Toolbar classes = {{root: classes.bar}}>
+              <IconButton
+                className = {classes.menuButton}
+                color = "inherit"
+                aria-label = "Menu"
+                onClick = {() =>
+                {
+                  this.setState({showing: true});
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
+                TRAVEL TOGETHER
+              </Typography>
+              <Button
+                variant = 'contained'
+                classes = {{label: classes.label, root: classes.btn}}
+                onClick = {() =>
+                {
+                  this.props.history.push('./login');
+                }}
+              >
+                LOGIN
+              </Button>
+            </Toolbar>
+          </AppBar>
+  
+          <Switch>
+            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/about" component = {About}/>
+            <Route path = "*" component = {Home} />
+          </Switch>
+        </div>
+      );
+    }
+    else
+    {
+      return (
+        <div className = {classes.root} id = "background">
+          <SwipeableDrawer
+            classes = {{paper: classes.drawer}}
+            open = {this.state.showing}
+            onClose = {() => {
+              this.setState({showing: false});
+            }}
+            onOpen = {() => {
+              this.setState({showing: true});
+            }}
+          >
+            <div
+              tabIndex = {0}
+              role = "button"
+              className = {classes.list}
+              onClick = {() => {
+                this.setState({showing: false});
+              }}
+              onKeyDown = {() => {
+                this.setState({showing: true});
               }}
             >
-              LOGIN
-            </Button>
-          </Toolbar>
-        </AppBar>
-
-        <Switch>
-          <Route exact path = "/" component = {Home}/>
-          <Route exact path = "/submit" component = {Submit}/>
-          <Route exact path = "/search" component = {Search}/>
-          <Route exact path = "/about" component = {About}/>
-          <Route path = "*" component = {Home} />
-        </Switch>
-      </div>
-    );
+              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/">
+                <ListItemText classes = {{primary: classes.text}} primary = "Home" />
+              </ListItem >
+              <ListItem classes = {{root: classes.container}} button component = {Link} to = "/submit">
+                <ListItemText classes = {{primary: classes.text}} primary = "Submit Request" />
+              </ListItem>
+              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/search">
+                <ListItemText classes = {{primary: classes.text}} primary = "Search Requests" />
+              </ListItem>
+              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/about">
+                <ListItemText classes = {{primary: classes.text}} primary = "About Me" />
+              </ListItem>
+            </div>
+          </SwipeableDrawer>
+  
+          <AppBar classes = {{root: classes.rootBar}} position = "static">
+            <Toolbar classes = {{root: classes.bar}}>
+              <IconButton
+                className = {classes.menuButton}
+                color = "inherit"
+                aria-label = "Menu"
+                onClick = {() =>
+                {
+                  this.setState({showing: true});
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
+                TRAVEL TOGETHER
+              </Typography>
+              <Button
+                variant = 'contained'
+                classes = {{label: classes.label, root: classes.btn}}
+                onClick = {this.props.logout}
+              >
+                {this.props.email + ' | LOGOUT'}
+              </Button>
+            </Toolbar>
+          </AppBar>
+  
+          <Switch>
+            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/submit" component = {Submit}/>
+            <Route exact path = "/search" component = {Search}/>
+            <Route exact path = "/about" component = {About}/>
+            <Route path = "*" component = {Home} />
+          </Switch>
+        </div>
+      );
+    }
   }
 }
 

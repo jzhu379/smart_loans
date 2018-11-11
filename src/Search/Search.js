@@ -33,7 +33,7 @@ class Search extends Component
       {
         Object.keys(data).map((e) =>
         {
-          if (data[e].start !== this.state.start || data[e].end !== this.state.end)
+          if (data[e].start !== this.state.start || data[e].end !== this.state.end || data[e].data.email === this.props.data.email)
           {
             delete data[e];
           }
@@ -96,6 +96,10 @@ class Search extends Component
 
           return (
             <div className = {classes.entry} key = {e}>
+              <p> CONTACT: {this.state.results[e].data.email} </p>
+              <p> GENDER: {this.state.results[e].data.gender} </p>
+              <p> MEANS OF TRANSPORTATION: {this.state.results[e].type} </p>
+              <p> AGE: {getAge(this.state.results[e].data.birthday)} </p>
               <p> STARTING POINT: {this.state.results[e].start} </p>
               <p> DESTINATION: {this.state.results[e].end} </p>
               <p> DATE: {monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()} </p>
@@ -188,6 +192,19 @@ const formatTime = (hours, minutes) =>
 }
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const getAge = (dateString) =>
+{
+  let today = new Date();
+  let birthDate = new Date(dateString);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+  {
+    age--;
+  }
+  return age;
+}
 
 const styles = () =>
 {

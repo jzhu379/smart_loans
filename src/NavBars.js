@@ -14,6 +14,7 @@ import Home from './Home/Home';
 import Submit from './Submit/Submit';
 import Search from './Search/Search';
 import About from './About/About';
+import Existing from './Existing/Existing';
 
 class NavBars extends Component
 {
@@ -87,9 +88,9 @@ class NavBars extends Component
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" component = {() => {return <Home data = {this.props.data}/>;}}/>
+            <Route exact path = "/" render = {() => {return <Home data = {this.props.data}/>;}}/>
             <Route exact path = "/about" component = {About}/>
-            <Route path = "*" component = {() => {return <Home data = {this.props.data}/>;}} />
+            <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
       );
@@ -124,6 +125,9 @@ class NavBars extends Component
               </ListItem >
               <ListItem classes = {{root: classes.container}} button component = {Link} to = "/submit">
                 <ListItemText classes = {{primary: classes.text}} primary = "Submit Request" />
+              </ListItem>
+              <ListItem classes = {{root: classes.container}} button component = {Link} to = "/existing">
+                <ListItemText classes = {{primary: classes.text}} primary = "Active Requests" />
               </ListItem>
               <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/search">
                 <ListItemText classes = {{primary: classes.text}} primary = "Search Requests" />
@@ -164,11 +168,12 @@ class NavBars extends Component
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" component = {() => {return <Home data = {this.props.data}/>;}}/>
-            <Route exact path = "/submit" component = {Submit}/>
-            <Route exact path = "/search" component = {Search}/>
+            <Route exact path = "/" render = {() => {return <Home data = {this.props.data}/>;}}/>
+            <Route exact path = "/submit" render = {() => {return <Submit data = {this.props.data}/>;}}/>
+            <Route exact path = "/existing" render = {() => {return <Existing data = {this.props.data}/>;}}/>
+            <Route exact path = "/search" render = {() => {return <Search data = {this.props.data}/>;}}/>
             <Route exact path = "/about" component = {About}/>
-            <Route path = "*" component = {() => {return <Home data = {this.props.data}/>;}} />
+            <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
       );

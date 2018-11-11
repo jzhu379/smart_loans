@@ -15,6 +15,7 @@ class Submit extends Component
   {
     start: '',
     end: '',
+    type: '',
     date: new Date(),
     loading: false,
     error: false,
@@ -27,7 +28,9 @@ class Submit extends Component
     {
       start: this.state.start,
       end: this.state.end,
-      date: this.state.date
+      date: this.state.date,
+      type: this.state.type,
+      data: this.props.data
     };
 
     this.setState({loading: true});
@@ -44,7 +47,7 @@ class Submit extends Component
 
   reset = () =>
   {
-    this.setState({error: false, success: false, start: '', end: '', date: null});
+    this.setState({error: false, success: false, start: '', end: '', type: '', date: null});
   }
 
   render()
@@ -72,6 +75,17 @@ class Submit extends Component
           name = 'end'
           value = {this.state.end}
           onChange = {(event) => {this.setState({end: event.target.value});}}
+        />
+
+        <div className = {classes.divider}/>
+
+        <TextField
+          label = 'means of travel'
+          className = {classes.field}
+          id = 'type'
+          name = 'type'
+          value = {this.state.type}
+          onChange = {(event) => {this.setState({type: event.target.value});}}
         />
 
         <div className = {classes.divider}/>

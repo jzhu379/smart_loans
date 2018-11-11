@@ -12,6 +12,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import axiosUser from '../axios';
 import './Login.css'
 
 class Login extends Component 
@@ -36,9 +37,11 @@ class Login extends Component
   newUser = () =>
   {
     this.setState({loading: true});
-    const data = {email: this.state.email, password: this.state.pass1, returnSecureToken: true, name: this.state.name}
+    const data = {email: this.state.email, password: this.state.pass1, returnSecureToken: true}
     axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC8bKYrM4J4NppYedW-Miv3-YuKB7OOaYE', data).then((res) =>
     {
+      const user = {name: this.state.name, email: this.state.email};
+      axiosUser.post('/users.json', user);
       this.setState({loading: false, done: true});
     }).catch((e) =>
     {
@@ -56,6 +59,7 @@ class Login extends Component
       this.props.history.replace('/');
     }).catch((e) =>
     {
+      console.log(e.response);
       this.setState({loading: false, error2: e.response.data.error.message});
     });
   }
@@ -263,7 +267,12 @@ class Login extends Component
 
       if (this.state.error2 === 'INVALID_EMAIL' || this.state.error2 === 'INVALID_PASSWORD')
       {
-        msg = 'Invalid email/password.'
+        msg = 'Invalid email or password.'
+      }
+
+      if (this.state.error2 === 'EMAIL_NOT_FOUND')
+      {
+        msg = 'Email has no linked account.'
       }
 
       form = (

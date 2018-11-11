@@ -71,7 +71,7 @@ class NavBars extends Component
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
-                TRAVEL TOGETHER
+                TravelTogether
               </Typography>
               <Button
                 variant = 'contained'
@@ -184,7 +184,7 @@ const styles =
   text: {fontSize: '1.4rem'},
   title: {fontSize: '2.2rem', margin: 'auto', paddingLeft: '1.2rem'},
   bar: {height: '15vh', textAlign: 'left'},
-  rootBar: {backgroundColor: 'rgba(61, 81, 181, 0.8)'},
+  rootBar: {backgroundColor: 'rgba(61, 81, 181, 0.45)'},
   label: {fontSize: '1.2rem'},
 };
 

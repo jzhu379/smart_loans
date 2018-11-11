@@ -6,7 +6,7 @@ import Login from './Login/Login';
 
 class App extends Component
 {
-  state = {email: null};
+  state = {data: null};
 
   render()
   {
@@ -16,23 +16,23 @@ class App extends Component
           <Route
             exact
             path = "/login"
-            component = {(props) =>
+            component = {() =>
             {
               return (
-                <Login auth = {(email) => {this.setState({email: email});}} />
+                <Login auth = {(data) => {this.setState({data: data});}} />
               );
             }}
           />
           <Route
             path = "*"
-            component = {(props) =>
+            component = {() =>
             {
               return (
                 <NavBars
-                  email = {this.state.email}
+                  data = {this.state.data}
                   logout = {() =>
                   {
-                    this.setState({email: null});
+                    this.setState({data: null});
                     this.props.history.replace('/');
                   }}
                 />

@@ -15,7 +15,7 @@ class Submit extends Component
   {
     start: '',
     end: '',
-    date: null,
+    date: new Date(),
     loading: false,
     error: false,
     success: false
@@ -51,14 +51,11 @@ class Submit extends Component
   {
     const {classes} = this.props;
 
-    let a = new Date();
-    a.setDate(a.getDate() + 2);
-
     let display = (
       <div>
         <h1> Submit Travel Request </h1>
         <TextField
-          label = 'Start Location'
+          label = 'start location'
           className = {classes.field}
           id = 'start'
           name = 'start'
@@ -69,7 +66,7 @@ class Submit extends Component
         <div className = {classes.divider}/>
 
         <TextField
-          label = 'Destination'
+          label = 'destination'
           className = {classes.field}
           id = 'end'
           name = 'end'
@@ -84,7 +81,7 @@ class Submit extends Component
             value = {this.state.date}
             onChange = {(date) => {this.setState({date: date});}}
             label = "Time of Departure"
-            minDate = {a}
+            disablePast
           />
         </MuiPickersUtilsProvider>
 

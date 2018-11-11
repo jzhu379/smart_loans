@@ -23,7 +23,7 @@ class NavBars extends Component
   {
     const {classes} = this.props;
 
-    if (this.props.email === null)
+    if (this.props.data === null)
     {
       return (
         <div className = {classes.root} id = "background">
@@ -87,9 +87,9 @@ class NavBars extends Component
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/" component = {() => {return <Home data = {this.props.data}/>;}}/>
             <Route exact path = "/about" component = {About}/>
-            <Route path = "*" component = {Home} />
+            <Route path = "*" component = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
       );
@@ -148,24 +148,27 @@ class NavBars extends Component
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
-                TRAVEL TOGETHER
+                TravelTogether
+              </Typography>
+              <Typography variant="h6" color="inherit" className = {classes.grow1}>
+                {this.props.data.email}
               </Typography>
               <Button
                 variant = 'contained'
                 classes = {{label: classes.label, root: classes.btn}}
                 onClick = {this.props.logout}
               >
-                {this.props.email + ' | LOGOUT'}
+                LOGOUT
               </Button>
             </Toolbar>
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" component = {Home}/>
+            <Route exact path = "/" component = {() => {return <Home data = {this.props.data}/>;}}/>
             <Route exact path = "/submit" component = {Submit}/>
             <Route exact path = "/search" component = {Search}/>
             <Route exact path = "/about" component = {About}/>
-            <Route path = "*" component = {Home} />
+            <Route path = "*" component = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
       );
@@ -177,6 +180,7 @@ const styles =
 {
   root: {flexGrow: 1},
   grow: {flexGrow: 1, color: 'rgba(255, 90, 54)', fontWeight: 'bold'},
+  grow1: {paddingRight: '1rem', color: 'rgba(255, 90, 54)'},
   list: {position: 'relative', width: '15rem'},
   drawer: {backgroundColor: 'rgba(61, 133, 209, 1)'},
   btn: {backgroundColor: 'rgba(61, 133, 209, 1)', padding: '1rem'},

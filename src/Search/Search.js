@@ -111,7 +111,7 @@ class Search extends Component
         <div className = 'form'>
           <h1> Search Travel Requests </h1>
           <TextField
-            label = 'Start Location'
+            label = 'start location'
             className = {classes.field}
             id = 'start'
             name = 'start'
@@ -122,7 +122,7 @@ class Search extends Component
           <div className = {classes.divider}/>
 
           <TextField
-            label = 'Destination'
+            label = 'destination'
             className = {classes.field}
             id = 'end'
             name = 'end'

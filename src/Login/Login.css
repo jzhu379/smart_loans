@@ -9,13 +9,24 @@
     display: inline-block;
 }
 
+#form1
+{
+    background-color: rgba(224, 224, 224, 0.85);
+    border-radius: 3rem;
+    width: 40%;
+    position: relative;
+    top: 10vh;
+    padding-bottom: 1rem;
+    display: inline-block;
+}
+
 .div2
 {
     background-color: rgba(224, 224, 224, 0.85);
     border-radius: 3rem;
-    width: 50%;
+    width: 40%;
     position: relative;
-    top: 15vh;
+    top: 2vh;
     padding-bottom: 1rem;
     display: inline-block;
 }

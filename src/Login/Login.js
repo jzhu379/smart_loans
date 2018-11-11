@@ -8,9 +8,13 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import MenuItem from '@material-ui/core/MenuItem';
 import {withStyles} from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {DatePicker} from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
+import {MuiPickersUtilsProvider} from 'material-ui-pickers';
 import axios from 'axios';
 import axiosUser from '../axios';
 import './Login.css'
@@ -31,7 +35,9 @@ class Login extends Component
     loading: false,
     done: false,
     error1: null,
-    error2: null
+    error2: null,
+    gender: '',
+    birthday: new Date()
   };
 
   newUser = () =>
@@ -40,7 +46,14 @@ class Login extends Component
     const data = {email: this.state.email, password: this.state.pass1, returnSecureToken: true}
     axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyC8bKYrM4J4NppYedW-Miv3-YuKB7OOaYE', data).then((res) =>
     {
-      const user = {name: this.state.name, email: this.state.email};
+      const user =
+      {
+        name: this.state.name,
+        email: this.state.email,
+        gender: this.state.gender,
+        birthday: this.state.birthday
+      };
+
       axiosUser.post('/users.json', user);
       this.setState({loading: false, done: true});
     }).catch((e) =>
@@ -55,11 +68,24 @@ class Login extends Component
     const data = {email: this.state.emailLogin, password: this.state.passLogin, returnSecureToken: true, name: this.state.name}
     axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyC8bKYrM4J4NppYedW-Miv3-YuKB7OOaYE', data).then((res) =>
     {
-      this.props.auth(this.state.emailLogin);
-      this.props.history.replace('/');
+      let info = null;
+
+      axiosUser.get('/users.json').then((res) =>
+      {
+        const data = res.data;
+        for (const key of Object.keys(data))
+        {
+          if (data[key].email === this.state.emailLogin)
+          {
+            info = data[key];
+            this.props.auth(info);
+            this.props.history.replace('/');
+            break;
+          }
+        }
+      });
     }).catch((e) =>
     {
-      console.log(e.response);
       this.setState({loading: false, error2: e.response.data.error.message});
     });
   }
@@ -88,6 +114,42 @@ class Login extends Component
             value = {this.state.email}
             onChange = {(event) => {this.setState({email: event.target.value});}}
           />
+          <div className={classes.divider}/>
+          <TextField
+            select
+            label = 'gender'
+            className = {classes.field1}
+            value = {this.state.gender}
+            onChange = {(event) =>
+            {
+              this.setState({gender: event.target.value});
+            }}
+          >
+            {
+              ['female', 'male', 'other'].map((e) =>
+              {
+                return (
+                  <MenuItem
+                    key = {e}
+                    value = {e}
+                    className = {classes.menuItem}
+                  >
+                    {e}
+                  </MenuItem>
+                );
+              })
+            }
+          </TextField>
+          <div className={classes.divider}/>
+          <MuiPickersUtilsProvider utils = {MomentUtils}>
+            <DatePicker
+              value = {this.state.birthday}
+              onChange = {(date) => {this.setState({birthday: date});}}
+              label = "date of birth"
+              openToYearSelection
+              disableFuture
+            />
+          </MuiPickersUtilsProvider>
           <div className={classes.divider}/>
           <FormControl>
             <InputLabel htmlFor="adornment-password">password</InputLabel>
@@ -126,7 +188,7 @@ class Login extends Component
               }
             />
           </FormControl>
-          <div className={classes.divider}/>
+          <div className = {classes.divider}/>
           <Button
             variant = 'contained'
             classes = {{label: classes.label, root: classes.btn2}}
@@ -150,7 +212,7 @@ class Login extends Component
           </Button>
         </div>
         <div id = 'middle'/>
-        <div className = 'div'>
+        <div className = 'div2'>
           <h1> Login </h1>
           <div className={classes.divider}/>
           <TextField
@@ -231,8 +293,8 @@ class Login extends Component
       }
 
       form = (
-        <div className = 'div2'>
-          <h1>{msg}</h1>
+        <div id = 'form1'>
+          <h1> {msg} </h1>
           <Button
             variant = 'contained'
             classes = {{label: classes.label, root: classes.btn2}}
@@ -251,7 +313,9 @@ class Login extends Component
                 loading: false,
                 done: false,
                 error1: null,
-                error2: null
+                error2: null,
+                gender: '',
+                birthday: new Date()
               });
             }}
           >
@@ -276,7 +340,7 @@ class Login extends Component
       }
 
       form = (
-        <div className = 'div2'>
+        <div id = 'form1'>
           <h1>{msg}</h1>
           <Button
             variant = 'contained'
@@ -296,7 +360,9 @@ class Login extends Component
                 loading: false,
                 done: false,
                 error1: null,
-                error2: null
+                error2: null,
+                gender: '',
+                birthday: new Date()
               });
             }}
           >
@@ -345,6 +411,7 @@ const styles =
   btn2: {backgroundColor: 'rgba(61, 133, 209, 1)',},
   label: {fontSize: '1.2rem'},
   field: {width: '20rem'},
+  field1: {width: '10rem'},
   divider: {height: '1rem'}
 };
 

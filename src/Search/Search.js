@@ -57,7 +57,7 @@ class Search extends Component
 
     if (this.state.loading)
     {
-      display = (<CircularProgress/>);
+      display = (<CircularProgress classes = {{root: classes.spinner, colorPrimary: classes.spinnerColor}} color = 'primary' thickness = {8} size = {100}/>);
     }
 
     if (this.state.empty)
@@ -221,7 +221,13 @@ const styles = () =>
       padding: '0.5rem',
       marginTop: '0.5rem',
       marginBottom: '0.5rem'
-    }
+    },
+    spinner:
+    {
+      position: 'fixed',
+      top: '50%'
+    },
+    spinnerColor: {color: '#40e0d0'}
   })
 }
 

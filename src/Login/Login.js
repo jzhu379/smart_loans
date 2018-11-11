@@ -266,11 +266,7 @@ class Login extends Component
 
     if (this.state.loading)
     {
-      form = (
-        <div className = 'div'>
-          <CircularProgress/>
-        </div>
-      );
+      form = (<CircularProgress classes = {{root: classes.spinner, colorPrimary: classes.spinnerColor}} color = 'primary' thickness = {8} size = {100}/>);
     }
 
     if (this.state.error1 !== null)
@@ -412,7 +408,13 @@ const styles =
   label: {fontSize: '1.2rem'},
   field: {width: '20rem'},
   field1: {width: '10rem'},
-  divider: {height: '1rem'}
+  divider: {height: '1rem'},
+  spinner:
+  {
+    position: 'fixed',
+    top: '50%'
+  },
+  spinnerColor: {color: '#40e0d0'}
 };
 
 

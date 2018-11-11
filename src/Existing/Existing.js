@@ -6,7 +6,7 @@ import axios from '../axios';
 
 class Existing extends Component
 {
-  state = {loading: true, data: null}
+  state = {loading: true}
 
   removeHandler = (hash) =>
   {
@@ -17,83 +17,50 @@ class Existing extends Component
 
   render()
   {
-    axios.get('/requests.json').then((res) =>
-    {
-      let data = res.data;
-
-      if (data === null)
-      {
-        this.setState({loading: false});
-      }
-      else
-      {
-        Object.keys(data).map((e) =>
-        {
-          if (data[e].data.email !== this.props.data.email)
-          {
-            delete data[e];
-          }
-        });
-
-        this.setState({loading: false, data: data});
-      }
-    });
-
-    if (this.state.loading)
+    if (this.props.requests === null || Object.keys(this.props.requests).length === 0)
     {
       return (
-        <div className = 'div2'>
-          <CircularProgress />
+        <div id = 'top'>
+          <h1> No active requests. </h1>
         </div>
       );
     }
     else
     {
-      if (this.state.data === null)
-      {
-        return (
-          <div className = 'div2'>
-            <h2> You have no existing travel requests. </h2>
-          </div>
-        );
-      }
-      else
-      {
-        return (
-          <div id = 'top'>
-            <h1> Active Requests </h1>
+      return (
+        <div id = 'top'>
+          <h1> Active Requests </h1>
+          {
+            Object.keys(this.props.requests).map((e) =>
             {
-              Object.keys(this.state.data).map((e) =>
-              {
-                const date = new Date(this.state.data[e].date);
-      
-                return (
-                  <div key = {e}>
-                    <div id = 'div2'>
-                      <p> STARTING POINT: {this.state.data[e].start} </p>
-                      <p> DESTINATION: {this.state.data[e].end} </p>
-                      <p> MEANS OF TRANSPORTATION: {this.state.data[e].type} </p>
-                      <p> DATE: {monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()} </p>
-                      <p> TIME: {formatTime(date.getHours(), date.getMinutes())} </p>
-                      <Button
-                        variant = 'contained'
-                        color = 'primary'
-                        onClick = {() =>
-                        {
-                          this.removeHandler(e);
-                        }}
-                      >
-                        DELETE
-                      </Button>
-                    </div>
-                    <div id = 'divider'/>
+              const date = new Date(this.props.requests[e].date);
+    
+              return (
+                <div key = {e}>
+                  <div id = 'div2'>
+                    <p> STARTING POINT: {this.props.requests[e].start} </p>
+                    <p> DESTINATION: {this.props.requests[e].end} </p>
+                    <p> MEANS OF TRANSPORTATION: {this.props.requests[e].type} </p>
+                    <p> DATE: {monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()} </p>
+                    <p> TIME: {formatTime(date.getHours(), date.getMinutes())} </p>
+                    <Button
+                      variant = 'contained'
+                      color = 'primary'
+                      onClick = {() =>
+                      {
+                        this.removeHandler(e);
+                      }}
+                    >
+                      DELETE
+                    </Button>
                   </div>
-                );
-              })
-            }
-          </div>
-        );
-      }
+                  <div id = 'divider'/>
+                </div>
+              );
+            })
+          }
+        </div>
+      );
     }
   }
 }

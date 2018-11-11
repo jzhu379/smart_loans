@@ -117,7 +117,7 @@ class Submit extends Component
 
     if (this.state.loading)
     {
-      display = (<CircularProgress/>);
+      display = (<CircularProgress classes = {{root: classes.spinner, colorPrimary: classes.spinnerColor}} color = 'primary' thickness = {8} size = {100}/>);
     }
 
     if (this.state.error)
@@ -173,7 +173,13 @@ const styles = () =>
   return (
   {
     field: {width: '40rem'},
-    divider: {height: '1rem'}
+    divider: {height: '1rem'},
+    spinner:
+    {
+      position: 'fixed',
+      top: '50%'
+    },
+    spinnerColor: {color: '#40e0d0'}
   })
 }
 

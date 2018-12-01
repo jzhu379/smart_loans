@@ -6,17 +6,54 @@ import axios from '../axios';
 
 class Existing extends Component
 {
-  state = {loading: true}
+  state = {loading: false, data: null}
 
   removeHandler = (hash) =>
   {
-    console.log(hash);
     this.setState({loading: true});
     axios.delete('/requests/' + hash + '.json');
   }
 
+  getData = () =>
+  {
+    this.setState({loading: true});
+    axios.get('/requests.json').then((res) =>
+    {
+      let data = res.data;
+      if (data !== null)
+      {
+        Object.keys(data).map((e) =>
+        {
+          if (data[e].data.email !== this.props.data.email)
+          {
+            delete data[e];
+          }
+        });
+
+        this.setState({data: data});
+      }
+
+      this.setState({loading: false});
+    });
+  }
+
   render()
   {
+    return (
+      <div id = 'top'>
+        <Button
+          variant = 'contained'
+          color = 'primary'
+          onClick = {() =>
+          {
+            this.getData();
+          }}
+        >
+          RETRIVE / REFRESH DATA
+        </Button>
+      </div>
+    );
+
     if (this.props.requests === null || Object.keys(this.props.requests).length === 0)
     {
       return (
@@ -27,7 +64,7 @@ class Existing extends Component
     }
     else
     {
-      return (
+      let display = (
         <div id = 'top'>
           <h1> Active Requests </h1>
           {
@@ -61,6 +98,13 @@ class Existing extends Component
           }
         </div>
       );
+
+      if (this.state.loading)
+      {
+        display = (<CircularProgress />);
+      }
+
+      return display;
     }
   }
 }

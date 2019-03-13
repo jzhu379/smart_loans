@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import './About.css'
 
 let img = null;
@@ -16,7 +17,7 @@ class About extends Component
       <div id = 'intro'>
         <h2 id = 'about'> About Me </h2>
         <h3> im some random kid, whatever </h3>
-        <img id = 'img' src = {img} alt = 'reallyEdgyTeen'/>
+        <img rel = 'preload' id = 'img' src = {img} alt = 'reallyEdgyTeen'/>
       </div>
   );
   }

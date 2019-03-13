@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import React, {Component} from 'react';
 import {Switch, Route, Link, withRouter} from 'react-router-dom';
 
@@ -17,7 +16,6 @@ import Submit from './Submit/Submit';
 import Search from './Search/Search';
 import About from './About/About';
 import Existing from './Existing/Existing';
-import axios from './axios';
 
 class NavBars extends Component
 {
@@ -85,7 +83,7 @@ class NavBars extends Component
                   this.props.history.push('./login');
                 }}
               >
-                LOGIN
+                LOGIN | SIGN UP
               </Button>
             </Toolbar>
           </AppBar>
@@ -174,41 +172,7 @@ class NavBars extends Component
             <Route exact path = "/" render = {() => {return (<Home data = {this.props.data}/>); }}/>
             <Route exact path = "/submit" render = {() => {return (<Submit data = {this.props.data}/>); }}/>
             <Route exact path = "/search" render = {() => {return (<Search data = {this.props.data}/>); }}/>
-            <Route exact path = "/existing" render = {() =>
-              {
-                if (!this.state.finished && !this.state.loading)
-                {
-                  this.setState({loading: true});
-                  axios.get('/requests.json').then((res) =>
-                  {
-                    let data = res.data;
-                    if (data !== null)
-                    {
-                      Object.keys(data).map((e) =>
-                      {
-                        if (data[e].data.email !== this.props.data.email)
-                        {
-                          delete data[e];
-                        }
-                      });
-
-                      this.setState({data: data});
-                    }
-
-                    this.setState({loading: false, finished: true});
-                  });
-                }
-
-                if (this.state.loading)
-                {
-                  return (<CircularProgress classes = {{root: classes.spinner, colorPrimary: classes.spinnerColor}} color = 'primary' thickness = {8} size = {100}/>);
-                }
-                else
-                {
-                  return (<Existing data = {this.props.data} requests = {this.state.data}/>);
-                }
-              }}
-            />
+            <Route exact path = "/existing" render = {() => {return (<Existing data = {this.props.data}/>); }}/>
             <Route exact path = "/about" component = {About}/>
             <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>

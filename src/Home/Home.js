@@ -45,7 +45,7 @@ class Home extends Component {
           <h2> ACCOUNTS: </h2>
           {
             this.state.accounts.map(e => {
-              return <h4> id: {e._id}, type: {e.type}, nickname: {e.nickname}, balance: {e.balance} </h4>;
+              return <h4 key={e._id}> id: {e._id}, type: {e.type}, nickname: {e.nickname}, balance: {e.balance} </h4>;
             })
           }
         </div>

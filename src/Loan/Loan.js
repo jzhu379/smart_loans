@@ -4,8 +4,7 @@ import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import './Loan.css';
-import axios_def from 'axios';
-import axios from '../axios';
+import axios from 'axios';
 
 class Loan extends Component 
 {
@@ -13,37 +12,19 @@ class Loan extends Component
   {
     loan_amt: 0,
     monthly_pay: 0,
-    balance: 0,
     credit_score: 0,
     loading: false,
     error: false,
-    success: false
+    success: false,
+    accounts: null
   }
 
   sendData = () =>
   {
-    const data =
-    {
-      loan_amt: parseInt(this.state.loan_amt),
-      monthly_pay: parseInt(this.state.monthly_pay),
-      balance: parseInt(this.state.balance),
-      credit_score: parseInt(this.state.credit_score)
-    };
-
     this.setState({loading: true});
-    axios_def.post('http://api.reimaginebanking.com/customers/' + this.props.data._id + '/accounts?key=925b21efc47b46165d21b9eacc69824a', data).then(res => {
-      axios.post('/accounts.json', {...data, _id: this.props.data._id}).then((res) =>
-      {
-        this.setState({loading: false});
-        this.setState({success: true});
-      }).catch((e) =>
-      {
-        this.setState({loading: false});
-        this.setState({error: true});
-      });
-    }).catch(e => {
-      console.log(data);
-      console.log(JSON.stringify(e));
+    axios.get('http://api.reimaginebanking.com/customers/' + this.props.data._id + '/accounts?key=925b21efc47b46165d21b9eacc69824a').then(res => {
+      this.setState({accounts: res.data, success: true, loading: false});
+    }).catch(err => {
       this.setState({loading: false});
       this.setState({error: true});
     });
@@ -54,16 +35,53 @@ class Loan extends Component
     this.setState({
     loan_amt: 0,
     monthly_pay: 0,
-    balance: 0,
     credit_score: 0,
     loading: false,
     error: false,
-    success: false});
+    success: false,
+    accounts: null});
   }
 
   render()
   {
     const {classes} = this.props;
+
+    const calculate = () => {
+      const loan_amt = parseInt(this.state.loan_amt);
+      const monthly_pay = parseInt(this.state.monthly_pay);
+      const credit_score = parseInt(this.state.credit_score);
+      let score = 0;
+      if (credit_score >= 800) {
+        score = 7;
+      } else if (credit_score >= 725) {
+        score = 6;
+      } else if (credit_score >= 625) {
+        score = 5;
+      } else if (credit_score >= 550) {
+        score = 4;
+      } else if (credit_score >= 500) {
+        score = 3;
+      } else if (credit_score >= 350) {
+        score = 2;
+      } else {
+        score = 1;
+      }
+      let balance = 0;
+      for (let i = 0; i < this.state.accounts.length; i++) {
+        balance += this.state.accounts[i].balance;
+      }
+  
+      const a = -6.27401143e-5*loan_amt + 1.25645540e-3*monthly_pay + 1.51174298e-5*balance + 2.80145060e-1*score + 0.03387403;
+      const b = 6.75200223e-5*loan_amt - 3.32968122e-3*monthly_pay -1.22907556e-05*balance - 5.55766051e-1*score - 0.1046463;
+      const c = 5.47918276e-5*loan_amt - 1.08847199e-3*monthly_pay - 1.51496012e-5*balance - 3.06137819e-1*score - 0.03568204;
+
+      const x_1 = 1.0/(1+Math.pow(Math.E, -a));
+      const x_2 = 1.0/(1+Math.pow(Math.E, -b));
+      const x_3 = 1.0/(1+Math.pow(Math.E, -c));
+      const sum = x_1 + x_2 + x_3;;
+  
+      return [x_1/parseFloat(sum), x_2/parseFloat(sum), x_3/parseFloat(sum)];
+    }
 
     let display = (
       <div>
@@ -87,20 +105,11 @@ class Loan extends Component
         />
         <div className = {classes.divider}/>
         <TextField
-          label = 'balance'
-          className = {classes.field}
-          id = 'balance'
-          name = 'balance'
-          value = {this.state.balance}
-          onChange = {(event) => {this.setState({balance: event.target.value});}}
-        />
-        <div className = {classes.divider}/>
-        <TextField
           label = 'credit score'
           className = {classes.field}
           id = 'credit_score'
           name = 'credit_score'
-          value = {this.state.balance}
+          value = {this.state.credit_score}
           onChange = {(event) => {this.setState({credit_score: event.target.value});}}
         />
         <div className = {classes.divider}/>
@@ -145,9 +154,20 @@ class Loan extends Component
     
     if (this.state.success)
     {
+      const values = calculate();
+      let msg = '';
+      if (values[0] > values[1] && values[0] > values[2]) {
+        msg = 'The bank has determined you have a low risk of defauling with a score of ' + values[0].toFixed(4) + ' out of 1.';
+      } else if (values[1] > values[0] && values[1] > values[2]) {
+        msg = 'The bank has determined you have a medium risk of defauling with a score of ' + values[1].toFixed(4) + ' out of 1.';
+      } else {
+        msg = 'The bank has determined you have a high risk of defauling with a score of ' + values[2].toFixed(4) + ' out of 1.';
+      }
+
       display = (
         <div>
           <h2> Submission successful. </h2>
+          <h2> {msg} </h2>
           <Button
             variant = 'contained'
             color = 'primary'

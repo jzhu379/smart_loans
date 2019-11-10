@@ -79,15 +79,16 @@ class Loan extends Component
       const x_2 = 1.0/(1+Math.pow(Math.E, -b));
       const x_3 = 1.0/(1+Math.pow(Math.E, -c));
       const sum = x_1 + x_2 + x_3;
-      
+
       return [x_1/parseFloat(sum), x_2/parseFloat(sum), x_3/parseFloat(sum)];
     }
 
     let display = (
       <div>
-        <h1> Create Account </h1>
+        <h1> Calculate Loan Default Risk </h1>
         <TextField
           label = 'loan amount'
+          type = 'number'
           className = {classes.field}
           id = 'loan_amt'
           name = 'loan_amt'
@@ -97,6 +98,7 @@ class Loan extends Component
         <div className = {classes.divider}/>
         <TextField
           label = 'monthly pay'
+          type = 'number'
           className = {classes.field}
           id = 'monthly_pay'
           name = 'monthly_pay'
@@ -106,6 +108,7 @@ class Loan extends Component
         <div className = {classes.divider}/>
         <TextField
           label = 'credit score'
+          type = 'number'
           className = {classes.field}
           id = 'credit_score'
           name = 'credit_score'

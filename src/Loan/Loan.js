@@ -3,18 +3,18 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import './Submit.css';
+import './Loan.css';
 import axios_def from 'axios';
 import axios from '../axios';
 
-class Submit extends Component 
+class Loan extends Component 
 {
   state =
   {
-    type: '',
-    nickname: '',
-    rewards: 0,
+    loan_amt: 0,
+    monthly_pay: 0,
     balance: 0,
+    credit_score: 0,
     loading: false,
     error: false,
     success: false
@@ -24,10 +24,10 @@ class Submit extends Component
   {
     const data =
     {
-      type: this.state.type,
-      nickname: this.state.nickname,
-      rewards: parseInt(this.state.rewards),
-      balance: parseInt(this.state.balance)
+      loan_amt: parseInt(this.state.loan_amt),
+      monthly_pay: parseInt(this.state.monthly_pay),
+      balance: parseInt(this.state.balance),
+      credit_score: parseInt(this.state.credit_score)
     };
 
     this.setState({loading: true});
@@ -52,10 +52,10 @@ class Submit extends Component
   reset = () =>
   {
     this.setState({
-    type: '',
-    nickname: '',
-    rewards: 0,
+    loan_amt: 0,
+    monthly_pay: 0,
     balance: 0,
+    credit_score: 0,
     loading: false,
     error: false,
     success: false});
@@ -69,41 +69,39 @@ class Submit extends Component
       <div>
         <h1> Create Account </h1>
         <TextField
-          label = 'type'
+          label = 'loan amount'
           className = {classes.field}
-          id = 'type'
-          name = 'type'
-          value = {this.state.type}
-          onChange = {(event) => {this.setState({type: event.target.value});}}
+          id = 'loan_amt'
+          name = 'loan_amt'
+          value = {this.state.loan_amt}
+          onChange = {(event) => {this.setState({loan_amt: event.target.value});}}
         />
         <div className = {classes.divider}/>
         <TextField
-          label = 'nickname'
+          label = 'monthly pay'
           className = {classes.field}
-          id = 'nickname'
-          name = 'nickname'
-          value = {this.state.nickname}
-          onChange = {(event) => {this.setState({nickname: event.target.value});}}
-        />
-        <div className = {classes.divider}/>
-        <TextField
-          label = 'rewards'
-          className = {classes.field}
-          type = 'number'
-          id = 'rewards'
-          name = 'rewards'
-          value = {this.state.rewards}
-          onChange = {(event) => {this.setState({rewards: event.target.value});}}
+          id = 'monthly_pay'
+          name = 'monthly_pay'
+          value = {this.state.monthly_pay}
+          onChange = {(event) => {this.setState({monthly_pay: event.target.value});}}
         />
         <div className = {classes.divider}/>
         <TextField
           label = 'balance'
           className = {classes.field}
           id = 'balance'
-          type = 'number'
           name = 'balance'
           value = {this.state.balance}
           onChange = {(event) => {this.setState({balance: event.target.value});}}
+        />
+        <div className = {classes.divider}/>
+        <TextField
+          label = 'credit score'
+          className = {classes.field}
+          id = 'credit_score'
+          name = 'credit_score'
+          value = {this.state.balance}
+          onChange = {(event) => {this.setState({credit_score: event.target.value});}}
         />
         <div className = {classes.divider}/>
         <Button
@@ -188,4 +186,4 @@ const styles = () =>
   })
 }
 
-export default withStyles(styles)(Submit);
+export default withStyles(styles)(Loan);

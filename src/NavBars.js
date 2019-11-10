@@ -13,9 +13,7 @@ import {Switch, Route, Link, withRouter} from 'react-router-dom';
 
 import Home from './Home/Home';
 import Submit from './Submit/Submit';
-import Search from './Search/Search';
-import About from './About/About';
-import Existing from './Existing/Existing';
+import Loan from './Loan/Loan';
 
 class NavBars extends Component
 {
@@ -29,51 +27,10 @@ class NavBars extends Component
     {
       return (
         <div className = {classes.root} id = "background">
-          <SwipeableDrawer
-            classes = {{paper: classes.drawer}}
-            open = {this.state.showing}
-            onClose = {() => {
-              this.setState({showing: false});
-            }}
-            onOpen = {() => {
-              this.setState({showing: true});
-            }}
-          >
-            <div
-              tabIndex = {0}
-              role = "button"
-              className = {classes.list}
-              onClick = {() => {
-                this.setState({showing: false});
-              }}
-              onKeyDown = {() => {
-                this.setState({showing: true});
-              }}
-            >
-              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/">
-                <ListItemText classes = {{primary: classes.text}} primary = "Home" />
-              </ListItem >
-              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/about">
-                <ListItemText classes = {{primary: classes.text}} primary = "About Me" />
-              </ListItem>
-            </div>
-          </SwipeableDrawer>
-  
           <AppBar className = {classes.root} classes = {{root: classes.rootBar}} position = "static">
             <Toolbar classes = {{root: classes.bar}}>
-              <IconButton
-                className = {classes.menuButton}
-                color = "inherit"
-                aria-label = "Menu"
-                onClick = {() =>
-                {
-                  this.setState({showing: true});
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
               <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
-                TravelTogether
+                CapitalOne
               </Typography>
               <Button
                 variant = 'contained'
@@ -90,7 +47,6 @@ class NavBars extends Component
   
           <Switch>
             <Route exact path = "/" render = {() => {return <Home data = {this.props.data}/>;}}/>
-            <Route exact path = "/about" component = {About}/>
             <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
@@ -125,16 +81,10 @@ class NavBars extends Component
                 <ListItemText classes = {{primary: classes.text}} primary = "Home" />
               </ListItem >
               <ListItem classes = {{root: classes.container}} button component = {Link} to = "/submit">
-                <ListItemText classes = {{primary: classes.text}} primary = "Submit Request" />
+                <ListItemText classes = {{primary: classes.text}} primary = "Submit Account Request" />
               </ListItem>
-              <ListItem classes = {{root: classes.container}} button component = {Link} to = "/existing">
-                <ListItemText classes = {{primary: classes.text}} primary = "Active Requests" />
-              </ListItem>
-              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/search">
-                <ListItemText classes = {{primary: classes.text}} primary = "Search Requests" />
-              </ListItem>
-              <ListItem classes = {{root: classes.container}} button component = {Link}  to = "/about">
-                <ListItemText classes = {{primary: classes.text}} primary = "About Me" />
+              <ListItem classes = {{root: classes.container}} button component = {Link} to = "/loan">
+                <ListItemText classes = {{primary: classes.text}} primary = "Loan Calculations" />
               </ListItem>
             </div>
           </SwipeableDrawer>
@@ -153,7 +103,7 @@ class NavBars extends Component
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
-                TravelTogether
+                CapitalOne
               </Typography>
               <Typography variant="h6" color="inherit" className = {classes.grow1}>
                 {this.props.data.email}
@@ -171,9 +121,7 @@ class NavBars extends Component
           <Switch>
             <Route exact path = "/" render = {() => {return (<Home data = {this.props.data}/>); }}/>
             <Route exact path = "/submit" render = {() => {return (<Submit data = {this.props.data}/>); }}/>
-            <Route exact path = "/search" render = {() => {return (<Search data = {this.props.data}/>); }}/>
-            <Route exact path = "/existing" render = {() => {return (<Existing data = {this.props.data}/>); }}/>
-            <Route exact path = "/about" component = {About}/>
+            <Route exact path = "/loan" render = {() => {return (<Loan data = {this.props.data}/>); }}/>
             <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
           </Switch>
         </div>
@@ -201,7 +149,13 @@ const styles =
     position: 'fixed',
     top: '50%'
   },
-  spinnerColor: {color: '#40e0d0'}
+  spinnerColor: {color: '#40e0d0'},
+  imageIcon: {
+    height: '100%'
+  },
+  iconRoot: {
+    textAlign: 'center'
+  }
 };
 
 export default withStyles(styles)(withRouter(NavBars));

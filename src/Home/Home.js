@@ -1,42 +1,57 @@
-import React from 'react';
+import React, {Component} from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import './Home.css'
+import axios_def from 'axios';
 
-const home = (props) => 
-{
-  if (props.data === null)
-  {
-    return (
-      <div id = 'intro'>
-        <h1 id = 'title'> Welcome to TravelTogether! </h1>
-        <h2> Need to split the fare? Or just need a travel companion? </h2>
-        <h2> Well look no further! Our app will help you get into touch with other travelers around you! </h2>
-      </div>
-    );
-  }
-  else
-  {
-    return (
-      <div id = 'intro'>
-        <h1 id = 'title'> Hello {props.data.name}! </h1>
-        <h2> Your profile information is listed below: </h2>
-        <h2> AGE: {getAge(props.data.birthday)} </h2>
-        <h2> GENDER: {props.data.gender} </h2>
-      </div>
-    );
-  }
-};
+class Home extends Component {
+  state = {accounts: null}
 
-const getAge = (dateString) =>
-{
-  let today = new Date();
-  let birthDate = new Date(dateString);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  let m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
-  {
-    age--;
+  getData = () => {
+    axios_def.get('http://api.reimaginebanking.com/customers/' + this.props.data._id + '/accounts?key=925b21efc47b46165d21b9eacc69824a').then(res => {
+      this.setState({accounts: res.data});
+    }).catch(err => {
+      this.setState({accounts: null});
+    });
   }
-  return age;
+
+  render() {
+    if (this.props.data === null)
+    {
+      return (
+        <div id = 'intro'>
+          <h1 id = 'title'> Welcome to CaptialOne's Loan Default Predictor! </h1>
+          <h2> This app allows the bank to predict whether a loan will be defaulted on. </h2>
+        </div>
+      );
+    }
+    else
+    {
+      if (this.state.accounts == null)
+      {
+        this.getData();
+        return <CircularProgress classes = {{root: {position: 'fixed', top: '50%'}, colorPrimary: {color: '#40e0d0'}}} color = 'primary' thickness = {8} size = {100}/>;
+      }
+
+      return (
+        <div id = 'intro'>
+          <h1 id = 'title'> Hello {this.props.data.first_name + ' ' + this.props.data.last_name}! </h1>
+          <h2> ID: {this.props.data._id}</h2>
+          <h2> ADDRESS: </h2>
+          <h4> street number: {this.props.data.address.street_number}</h4>
+          <h4> street name: {this.props.data.address.street_name}</h4>
+          <h4> city: {this.props.data.address.city}</h4>
+          <h4> state: {this.props.data.address.state}</h4>
+          <h4> zip: {this.props.data.address.zip}</h4>
+          <h2> ACCOUNTS: </h2>
+          {
+            this.state.accounts.map(e => {
+              return <h4> id: {e._id}, type: {e.type}, nickname: {e.nickname}, balance: {e.balance} </h4>;
+            })
+          }
+        </div>
+      );
+    }
+  }
 }
 
-export default home;
+export default Home;

@@ -8,13 +8,9 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import MenuItem from '@material-ui/core/MenuItem';
 import {withStyles} from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {DatePicker} from 'material-ui-pickers';
-import MomentUtils from '@date-io/moment';
-import {MuiPickersUtilsProvider} from 'material-ui-pickers';
 
 import axios from 'axios';
 import axiosUser from '../axios';
@@ -24,10 +20,16 @@ class Login extends Component
 {
   state =
   {
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     pass1: '',
     pass2: '',
+    street_number: '',
+    street_name: '',
+    city: '',
+    state: '',
+    zip: '',
     showPass1: false,
     showPass2: false,
     emailLogin: '',
@@ -37,8 +39,6 @@ class Login extends Component
     done: false,
     error1: null,
     error2: null,
-    gender: '',
-    birthday: new Date()
   };
 
   newUser = () =>
@@ -49,13 +49,22 @@ class Login extends Component
     {
       const user =
       {
-        name: this.state.name,
-        email: this.state.email,
-        gender: this.state.gender,
-        birthday: this.state.birthday
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        address:
+        {
+          street_number: this.state.street_number,
+          street_name: this.state.street_name,
+          city: this.state.city,
+          state: this.state.state,
+          zip: this.state.zip,
+        }
       };
-
-      axiosUser.post('/users.json', user);
+      axios.post('http://api.reimaginebanking.com/customers?key=925b21efc47b46165d21b9eacc69824a', user).catch(e => {
+        this.setState({loading: false, error1: e.response.data.error.message});
+      }).then(res => {
+        axiosUser.post('/users.json', {...user, email: this.state.email, _id: res.data.objectCreated._id});
+      });
       this.setState({loading: false, done: true});
     }).catch((e) =>
     {
@@ -100,12 +109,21 @@ class Login extends Component
         <div className = 'div'>
           <h1> Create New Account </h1>
           <TextField
-            label = 'name'
+            label = 'first name'
             className = {classes.field}
-            id = 'name'
-            name = 'name'
-            value = {this.state.name}
-            onChange = {(event) => {this.setState({name: event.target.value});}}
+            id = 'first_name'
+            name = 'first_name'
+            value = {this.state.first_name}
+            onChange = {(event) => {this.setState({first_name: event.target.value});}}
+          />
+          <div className={classes.divider}/>
+          <TextField
+            label = 'last name'
+            className = {classes.field}
+            id = 'last_name'
+            name = 'last_name'
+            value = {this.state.last_name}
+            onChange = {(event) => {this.setState({last_name: event.target.value});}}
           />
           <div className={classes.divider}/>
           <TextField
@@ -115,42 +133,6 @@ class Login extends Component
             value = {this.state.email}
             onChange = {(event) => {this.setState({email: event.target.value});}}
           />
-          <div className={classes.divider}/>
-          <TextField
-            select
-            label = 'gender'
-            className = {classes.field1}
-            value = {this.state.gender}
-            onChange = {(event) =>
-            {
-              this.setState({gender: event.target.value});
-            }}
-          >
-            {
-              ['female', 'male', 'other'].map((e) =>
-              {
-                return (
-                  <MenuItem
-                    key = {e}
-                    value = {e}
-                    className = {classes.menuItem}
-                  >
-                    {e}
-                  </MenuItem>
-                );
-              })
-            }
-          </TextField>
-          <div className={classes.divider}/>
-          <MuiPickersUtilsProvider utils = {MomentUtils}>
-            <DatePicker
-              value = {this.state.birthday}
-              onChange = {(date) => {this.setState({birthday: date});}}
-              label = "date of birth"
-              openToYearSelection
-              disableFuture
-            />
-          </MuiPickersUtilsProvider>
           <div className={classes.divider}/>
           <FormControl>
             <InputLabel htmlFor="adornment-password">password</InputLabel>
@@ -190,6 +172,52 @@ class Login extends Component
             />
           </FormControl>
           <div className = {classes.divider}/>
+          <h3> Address: </h3>
+          <TextField
+            label = 'street number'
+            className = {classes.field}
+            id = 'street_number'
+            name = 'street_number'
+            value = {this.state.street_number}
+            onChange = {(event) => {this.setState({street_number: event.target.value});}}
+          />
+          <div className={classes.divider}/>
+          <TextField
+            label = 'street name'
+            className = {classes.field}
+            id = 'street_name'
+            name = 'street_name'
+            value = {this.state.street_name}
+            onChange = {(event) => {this.setState({street_name: event.target.value});}}
+          />
+          <div className={classes.divider}/>
+          <TextField
+            label = 'city'
+            className = {classes.field}
+            id = 'city'
+            name = 'city'
+            value = {this.state.city}
+            onChange = {(event) => {this.setState({city: event.target.value});}}
+          />
+          <div className={classes.divider}/>
+          <TextField
+            label = 'state'
+            className = {classes.field}
+            id = 'state'
+            name = 'state'
+            value = {this.state.state}
+            onChange = {(event) => {this.setState({state: event.target.value});}}
+          />
+          <div className={classes.divider}/>
+          <TextField
+            label = 'zip'
+            className = {classes.field}
+            id = 'zip'
+            name = 'zip'
+            value = {this.state.zip}
+            onChange = {(event) => {this.setState({zip: event.target.value});}}
+          />
+          <div className={classes.divider}/>
           <Button
             variant = 'contained'
             classes = {{label: classes.label, root: classes.btn2}}
@@ -298,10 +326,16 @@ class Login extends Component
             onClick = {() =>
             {
               this.setState({
-                name: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 pass1: '',
                 pass2: '',
+                street_number: '',
+                street_name: '',
+                city: '',
+                state: '',
+                zip: '',
                 showPass1: false,
                 showPass2: false,
                 emailLogin: '',
@@ -311,8 +345,6 @@ class Login extends Component
                 done: false,
                 error1: null,
                 error2: null,
-                gender: '',
-                birthday: new Date()
               });
             }}
           >
@@ -345,10 +377,16 @@ class Login extends Component
             onClick = {() =>
             {
               this.setState({
-                name: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 pass1: '',
                 pass2: '',
+                street_number: '',
+                street_name: '',
+                city: '',
+                state: '',
+                zip: '',
                 showPass1: false,
                 showPass2: false,
                 emailLogin: '',
@@ -358,8 +396,6 @@ class Login extends Component
                 done: false,
                 error1: null,
                 error2: null,
-                gender: '',
-                birthday: new Date()
               });
             }}
           >

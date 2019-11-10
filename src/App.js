@@ -5,8 +5,7 @@ import NavBars from './NavBars'
 import './App.css';
 import Login from './Login/Login';
 
-class App extends Component
-{
+class App extends Component {
   state = {data: null};
 
   render()

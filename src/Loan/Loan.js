@@ -78,8 +78,8 @@ class Loan extends Component
       const x_1 = 1.0/(1+Math.pow(Math.E, -a));
       const x_2 = 1.0/(1+Math.pow(Math.E, -b));
       const x_3 = 1.0/(1+Math.pow(Math.E, -c));
-      const sum = x_1 + x_2 + x_3;;
-  
+      const sum = x_1 + x_2 + x_3;
+      
       return [x_1/parseFloat(sum), x_2/parseFloat(sum), x_3/parseFloat(sum)];
     }
 
@@ -157,11 +157,11 @@ class Loan extends Component
       const values = calculate();
       let msg = '';
       if (values[0] > values[1] && values[0] > values[2]) {
-        msg = 'The bank has determined you have a low risk of defauling with a score of ' + values[0].toFixed(4) + ' out of 1.';
+        msg = 'The bank has determined you have a low risk of defaulting with a score of ' + values[0].toFixed(4) + ' out of 1.';
       } else if (values[1] > values[0] && values[1] > values[2]) {
-        msg = 'The bank has determined you have a medium risk of defauling with a score of ' + values[1].toFixed(4) + ' out of 1.';
+        msg = 'The bank has determined you have a medium risk of defaulting with a score of ' + values[1].toFixed(4) + ' out of 1.';
       } else {
-        msg = 'The bank has determined you have a high risk of defauling with a score of ' + values[2].toFixed(4) + ' out of 1.';
+        msg = 'The bank has determined you have a high risk of defaulting with a score of ' + values[2].toFixed(4) + ' out of 1.';
       }
 
       display = (

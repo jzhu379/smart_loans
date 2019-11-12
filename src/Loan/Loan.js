@@ -6,10 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './Loan.css';
 import axios from 'axios';
 
-class Loan extends Component 
-{
-  state =
-  {
+class Loan extends Component {
+  state = {
     loan_amt: 0,
     monthly_pay: 0,
     credit_score: 0,
@@ -19,31 +17,30 @@ class Loan extends Component
     accounts: null
   }
 
-  sendData = () =>
-  {
+  sendData = () => {
     this.setState({loading: true});
     axios.get('http://api.reimaginebanking.com/customers/' + this.props.data._id + '/accounts?key=925b21efc47b46165d21b9eacc69824a').then(res => {
       this.setState({accounts: res.data, success: true, loading: false});
     }).catch(err => {
+      console.log(err);
       this.setState({loading: false});
       this.setState({error: true});
     });
   }
 
-  reset = () =>
-  {
+  reset = () => {
     this.setState({
-    loan_amt: 0,
-    monthly_pay: 0,
-    credit_score: 0,
-    loading: false,
-    error: false,
-    success: false,
-    accounts: null});
+      loan_amt: 0,
+      monthly_pay: 0,
+      credit_score: 0,
+      loading: false,
+      error: false,
+      success: false,
+      accounts: null}
+    );
   }
 
-  render()
-  {
+  render() {
     const {classes} = this.props;
 
     const calculate = () => {
@@ -93,7 +90,7 @@ class Loan extends Component
           id = 'loan_amt'
           name = 'loan_amt'
           value = {this.state.loan_amt}
-          onChange = {(event) => {this.setState({loan_amt: event.target.value});}}
+          onChange = {(event) => { this.setState({loan_amt: event.target.value}); }}
         />
         <div className = {classes.divider}/>
         <TextField
@@ -103,7 +100,7 @@ class Loan extends Component
           id = 'monthly_pay'
           name = 'monthly_pay'
           value = {this.state.monthly_pay}
-          onChange = {(event) => {this.setState({monthly_pay: event.target.value});}}
+          onChange = {(event) => { this.setState({monthly_pay: event.target.value}); }}
         />
         <div className = {classes.divider}/>
         <TextField
@@ -113,14 +110,13 @@ class Loan extends Component
           id = 'credit_score'
           name = 'credit_score'
           value = {this.state.credit_score}
-          onChange = {(event) => {this.setState({credit_score: event.target.value});}}
+          onChange = {(event) => { this.setState({credit_score: event.target.value}); }}
         />
         <div className = {classes.divider}/>
         <Button
           variant = 'contained'
           color = 'primary'
-          onClick = {(e) =>
-          {
+          onClick = {(e) => {
             e.preventDefault();
             this.sendData();
           }}
@@ -130,21 +126,18 @@ class Loan extends Component
       </div>
     );
 
-    if (this.state.loading)
-    {
+    if (this.state.loading) {
       display = (<CircularProgress classes = {{root: classes.spinner, colorPrimary: classes.spinnerColor}} color = 'primary' thickness = {8} size = {100}/>);
     }
 
-    if (this.state.error)
-    {
+    if (this.state.error) {
       display = (
         <div>
           <h2> Sorry, an error occured. </h2>
           <Button
             variant = 'contained'
             color = 'primary'
-            onClick = {(e) =>
-            {
+            onClick = {(e) => {
               e.preventDefault();
               this.reset();
             }}
@@ -155,8 +148,7 @@ class Loan extends Component
       );
     }
     
-    if (this.state.success)
-    {
+    if (this.state.success) {
       const values = calculate();
       let msg = '';
       if (values[0] > values[1] && values[0] > values[2]) {
@@ -174,8 +166,7 @@ class Loan extends Component
           <Button
             variant = 'contained'
             color = 'primary'
-            onClick = {(e) =>
-            {
+            onClick = {(e) => {
               e.preventDefault();
               this.reset();
             }}
@@ -194,8 +185,7 @@ class Loan extends Component
   }
 };
 
-const styles = () =>
-{
+const styles = () => {
   return (
   {
     field: {width: '40rem'},

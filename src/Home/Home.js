@@ -10,13 +10,13 @@ class Home extends Component {
     axios_def.get('http://api.reimaginebanking.com/customers/' + this.props.data._id + '/accounts?key=925b21efc47b46165d21b9eacc69824a').then(res => {
       this.setState({accounts: res.data});
     }).catch(err => {
+      console.log(err);
       this.setState({accounts: null});
     });
   }
 
   render() {
-    if (this.props.data === null)
-    {
+    if (this.props.data === null) {
       return (
         <div id = 'intro'>
           <h1 id = 'title'> Welcome to CaptialOne's Loan Default Predictor! </h1>
@@ -24,10 +24,8 @@ class Home extends Component {
         </div>
       );
     }
-    else
-    {
-      if (this.state.accounts == null)
-      {
+    else {
+      if (this.state.accounts == null) {
         this.getData();
         return <CircularProgress classes = {{root: {position: 'fixed', top: '50%'}, colorPrimary: {color: '#40e0d0'}}} color = 'primary' thickness = {8} size = {100}/>;
       }

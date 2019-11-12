@@ -8,30 +8,26 @@ import Login from './Login/Login';
 class App extends Component {
   state = {data: null};
 
-  render()
-  {
+  render() {
     return (
       <div className="App">
         <Switch>
           <Route
             exact
             path = "/login"
-            component = {() =>
-            {
+            component = {() => {
               return (
-                <Login auth = {(data) => {this.setState({data: data});}} />
+                <Login auth = {(data) => { this.setState({data: data}); }}/>
               );
             }}
           />
           <Route
             path = "*"
-            component = {() =>
-            {
+            component = {() => {
               return (
                 <NavBars
                   data = {this.state.data}
-                  logout = {() =>
-                  {
+                  logout = {() => {
                     this.setState({data: null});
                     this.props.history.replace('/');
                   }}

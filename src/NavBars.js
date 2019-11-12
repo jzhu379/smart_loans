@@ -15,16 +15,18 @@ import Home from './Home/Home';
 import Submit from './Submit/Submit';
 import Loan from './Loan/Loan';
 
-class NavBars extends Component
-{
-  state = {showing: false, loading: false, data: null, finished: false}
+class NavBars extends Component {
+  state = {
+    showing: false,
+    loading: false,
+    data: null,
+    finished: false
+  }
 
-  render()
-  {
+  render() {
     const {classes} = this.props;
 
-    if (this.props.data === null)
-    {
+    if (this.props.data === null) {
       return (
         <div className = {classes.root} id = "background">
           <AppBar className = {classes.root} classes = {{root: classes.rootBar}} position = "static">
@@ -35,8 +37,7 @@ class NavBars extends Component
               <Button
                 variant = 'contained'
                 classes = {{label: classes.label, root: classes.btn}}
-                onClick = {() =>
-                {
+                onClick = {() => {
                   this.props.history.push('./login');
                 }}
               >
@@ -46,14 +47,13 @@ class NavBars extends Component
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" render = {() => {return <Home data = {this.props.data}/>;}}/>
-            <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
+            <Route exact path = "/" render = {() => { return <Home data = {this.props.data}/>; }}/>
+            <Route path = "*" render = {() => { return <Home data = {this.props.data}/>; }}/>
           </Switch>
         </div>
       );
     }
-    else
-    {
+    else {
       return (
         <div className = {classes.root} id = "background">
           <SwipeableDrawer
@@ -95,12 +95,11 @@ class NavBars extends Component
                 className = {classes.menuButton}
                 color = "inherit"
                 aria-label = "Menu"
-                onClick = {() =>
-                {
+                onClick = {() => {
                   this.setState({showing: true});
                 }}
               >
-                <MenuIcon />
+                <MenuIcon/>
               </IconButton>
               <Typography variant="h6" color="inherit" className = {classes.grow} classes = {{root: classes.title}}>
                 CapitalOne
@@ -119,10 +118,10 @@ class NavBars extends Component
           </AppBar>
   
           <Switch>
-            <Route exact path = "/" render = {() => {return (<Home data = {this.props.data}/>); }}/>
-            <Route exact path = "/submit" render = {() => {return (<Submit data = {this.props.data}/>); }}/>
-            <Route exact path = "/loan" render = {() => {return (<Loan data = {this.props.data}/>); }}/>
-            <Route path = "*" render = {() => {return <Home data = {this.props.data}/>;}} />
+            <Route exact path = "/" render = {() => { return (<Home data = {this.props.data}/>); }}/>
+            <Route exact path = "/submit" render = {() => { return (<Submit data = {this.props.data}/>); }}/>
+            <Route exact path = "/loan" render = {() => { return (<Loan data = {this.props.data}/>); }}/>
+            <Route path = "*" render = {() => { return <Home data = {this.props.data}/>; }}/>
           </Switch>
         </div>
       );

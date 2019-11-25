@@ -15,12 +15,13 @@ import Home from './Home/Home';
 import Submit from './Submit/Submit';
 import Loan from './Loan/Loan';
 
+/* master branch */
 class NavBars extends Component {
   state = {
     showing: false,
     loading: false,
     data: null,
-    finished: false
+    finished: false,
   }
 
   render() {
